@@ -1,9 +1,9 @@
 {
-  "name": "rollup-starter-lib",
-  "version": "1.0.0",
-  "main": "dist/how-long-till-lunch.cjs.js",
-  "module": "dist/how-long-till-lunch.esm.js",
-  "browser": "dist/how-long-till-lunch.umd.js",
+  "name": "phoenix-custom-event-hook",
+  "version": "0.0.1",
+  "main": "dist/phoenix-custom-event-hook.cjs.js",
+  "module": "dist/phoenix-custom-event-hook.esm.js",
+  "browser": "dist/phoenix-custom-event-hook.umd.js",
   "dependencies": {
     "ms": "^2.0.0"
   },

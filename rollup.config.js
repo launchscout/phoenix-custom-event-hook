@@ -5,9 +5,9 @@ import pkg from './package.json';
 export default [
 	// browser-friendly UMD build
 	{
-		input: 'src/main.js',
+		input: 'src/phoenix-custom-event-hook.js',
 		output: {
-			name: 'howLongUntilLunch',
+			name: 'phoenix-custom-event-hook',
 			file: pkg.browser,
 			format: 'umd'
 		},
@@ -24,8 +24,7 @@ export default [
 	// an array for the `output` option, where we can specify
 	// `file` and `format` for each target)
 	{
-		input: 'src/main.js',
-		external: ['ms'],
+		input: 'src/phoenix-custom-event-hook.js',
 		output: [
 			{ file: pkg.main, format: 'cjs' },
 			{ file: pkg.module, format: 'es' }
