@@ -1,46 +1,48 @@
-# rollup-starter-lib
+# phoenix-custom-event-hook
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/rollup/rollup-starter-lib.svg)](https://greenkeeper.io/)
+This package is a [Phoenix LiveView](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html) [hook](https://hexdocs.pm/phoenix_live_view/js-interop.html#client-hooks) that allows you to easily send [Custom Events](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent) to your live view.
 
-This repo contains a bare-bones example of how to create a library using Rollup, including importing a module from `node_modules` and converting it from CommonJS.
+## Installation
 
-We're creating a library called `how-long-till-lunch`, which usefully tells us how long we have to wait until lunch, using the [ms](https://github.com/zeit/ms) package:
+In your phoenix project assets directory
 
-```js
-console.log('it will be lunchtime in ' + howLongTillLunch());
+```
+npm install <package>
 ```
 
-## Getting started
+## Usage
 
-Clone this repository and install its dependencies:
+1. Add the PhoenixCustomEvent hook to your LiveSocket
 
-```bash
-git clone https://github.com/rollup/rollup-starter-lib
-cd rollup-starter-lib
-npm install
+```javascript
+import PhoenixCustomEvent from 'phoenix-custom-event-hook';
+
+let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
+let liveSocket = new LiveSocket("/live", Socket, { params: { _csrf_token: csrfToken }, hooks: { PhoenixCustomEvent } })
 ```
 
-`npm run build` builds the library to `dist`, generating three files:
+2. Add `phx-hook` and `phx-custom-event-` attributes to elements in your template.
 
-* `dist/how-long-till-lunch.cjs.js`
-    A CommonJS bundle, suitable for use in Node.js, that `require`s the external dependency. This corresponds to the `"main"` field in package.json
-* `dist/how-long-till-lunch.esm.js`
-    an ES module bundle, suitable for use in other people's libraries and applications, that `import`s the external dependency. This corresponds to the `"module"` field in package.json
-* `dist/how-long-till-lunch.umd.js`
-    a UMD build, suitable for use in any environment (including the browser, as a `<script>` tag), that includes the external dependency. This corresponds to the `"browser"` field in package.json
+In this example, the `lit-google-element` emits a `bounds_changed` custom event which will become live_view event.
 
-`npm run dev` builds the library, then keeps rebuilding it whenever the source files change using [rollup-watch](https://github.com/rollup/rollup-watch).
+```html
+<lit-google-map api-key="" phx-hook="PhoenixCustomEvent" phx-custom-event-bounds_changed="bounds_changed">
+```
 
-`npm test` builds the library, then tests it.
+3. Handle the event in your live view
 
-## Variations
+```elixir
+  def handle_event(
+        "bounds_changed",
+        %{"north" => north, "east" => east, "west" => west, "south" => south},
+        socket
+      ) do
+    airports =
+      Airports.list_airports_in_bounds(%{north: north, east: east, west: west, south: south})
 
-* [babel](https://github.com/rollup/rollup-starter-lib/tree/babel) — illustrates writing the source code in ES2015 and transpiling it for older environments with [Babel](https://babeljs.io/)
-* [buble](https://github.com/rollup/rollup-starter-lib/tree/buble) — similar, but using [Bublé](https://buble.surge.sh/) which is a faster alternative with less configuration
-* [TypeScript](https://github.com/rollup/rollup-starter-lib/tree/typescript) — uses [TypeScript](https://www.typescriptlang.org/) for type-safe code and transpiling
-
-
-
+    {:noreply, socket |> assign(airports: airports)}
+  end
+```
 ## License
 
 [MIT](LICENSE).
