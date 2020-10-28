@@ -7,7 +7,7 @@ This package is a [Phoenix LiveView](https://hexdocs.pm/phoenix_live_view/Phoeni
 In your phoenix project assets directory
 
 ```
-npm install <package>
+npm install phoenix-custom-event-hook
 ```
 
 ## Usage
