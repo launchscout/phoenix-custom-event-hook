@@ -1,5 +1,12 @@
 {
   "name": "phoenix-custom-event-hook",
+  "author": {
+    "name": "Chris Nelson"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gaslight/phoenix-custom-event-hook.git"
+  },
   "version": "0.0.1",
   "main": "dist/phoenix-custom-event-hook.cjs.js",
   "module": "dist/phoenix-custom-event-hook.esm.js",
