@@ -6,7 +6,10 @@ const PhxCustomEvent = {
         const eventName = attrs[i].name.replace("phx-custom-event-", "");
         const phxEvent = attrs[i].value
         this.el.addEventListener(eventName, ({ detail }) => {
-          this.pushEvent(phxEvent, detail);
+          this.el.dispatchEvent(new CustomEvent('phx-event-start', { detail: { name: eventName, payload: detail } }));
+          this.pushEvent(phxEvent, detail, e => {
+            this.el.dispatchEvent(new CustomEvent('phx-event-complete', { detail: { name: eventName, payload: detail } }));
+          });
         });
       }
     }

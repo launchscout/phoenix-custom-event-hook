@@ -43,6 +43,14 @@ In this example, the `lit-google-element` emits a `bounds_changed` custom event 
     {:noreply, socket |> assign(airports: airports)}
   end
 ```
+
+## Loading events
+
+This hook will also dispatch the following events on the element it is added to:
+
+* `phx-event-start` when an event is sent to live view
+* `phx-event-complete` when a reply is received
+  
 ## License
 
 [MIT](LICENSE).
