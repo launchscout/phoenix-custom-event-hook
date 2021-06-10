@@ -13,7 +13,15 @@ const PhxCustomEvent = {
         });
       }
     }
+    if (this.el.getAttribute("phx-receive-events")) {
+      const phoenixEvents = this.el.getAttribute("phx-receive-events").split(",");
+      phoenixEvents.forEach(evt => {
+        this.handleEvent(evt, (payload) => {
+          this.el.dispatchEvent(new CustomEvent(evt, {detail: payload}));
+        });
+      });
+    }
   }
 }
 
-export default PhxCustomEvent;
+export default PhxCustomEvent;  

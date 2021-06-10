@@ -50,7 +50,26 @@ This hook will also dispatch the following events on the element it is added to:
 
 * `phx-event-start` when an event is sent to live view
 * `phx-event-complete` when a reply is received
-  
+
+## Receiving events
+
+If you wish to receive events from LiveView, add a `phx-receive-events` attribute to the element this hook is defined on which contains a list of events you wish to receive. Each event will become a CustomEvent of the same name with the `detail` property containing the payload. 
+
+For example, in LiveView:
+
+```elixir
+  socket
+  |> push_event("message_updated", %{message: "HI there"})
+```
+
+In your Custom Element:
+
+```javascript
+  this.addEventListener("message_updated", ({ detail: { message } }) => {
+    console.log(message);
+  });
+```
+
 ## License
 
 [MIT](LICENSE).
