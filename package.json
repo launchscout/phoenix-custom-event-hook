@@ -20,6 +20,7 @@
     "rollup": "^1.29.0"
   },
   "scripts": {
+    "prepare": "npm run build",
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "test": "node test/test.js",
