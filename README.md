@@ -44,6 +44,14 @@ In this example, the `lit-google-element` emits a `bounds_changed` custom event 
   end
 ```
 
+An event target can be specified by assigning a component id to your custom element's `phx-target` attribute. In this example, any events emitted by the `lit-google-map` element will be handled by the LiveComponent that renders it, rather than the LiveView.
+
+```html
+<lit-google-map api-key="" phx-hook="PhoenixCustomEvent" phx-target="<%= @myself %>" phx-custom-event-bounds_changed="bounds_changed">
+```
+
+Not currently supported: multiple event targets, targeting events by CSS selector.
+
 ## Loading events
 
 This hook will also dispatch the following events on the element it is added to:
