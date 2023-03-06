@@ -21,9 +21,10 @@ let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("
 let liveSocket = new LiveSocket("/live", Socket, { params: { _csrf_token: csrfToken }, hooks: { PhoenixCustomEvent } })
 ```
 
-2. Add `phx-hook` and `phx-custom-event-` attributes to elements in your template.
+2. Add `phx-hook` and `phx-send-events` attributes to elements in your template.
 
-In this example, the `lit-google-element` emits a `bounds_changed` custom event which will become live_view event.
+In this example, the `lit-google-element` emits a `bounds_changed` custom event which will become live_view event. The payload will be the detail of the custom event, merged 
+with any `data-` attribute values (the event target dataset). This can be customized if needed (see below).
 
 ```html
 <lit-google-map api-key="" phx-hook="PhoenixCustomEvent" phx-send-events="bounds_changed">
