@@ -90,7 +90,7 @@ This will be merged together into the payload sent to LiveView. If you wish to o
 
 ```js
 import PhoenixCustomEvent from 'phoenix-custom-event-hook';
-PhoenixCustomEvent.serializeEvent = (event) => { foo: 'bar' };
+PhoenixCustomEvent.serializeEvent = (_event) => { return {foo: 'bar' } };
 ```
 
 ## License
