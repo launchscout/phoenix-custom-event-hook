@@ -1,0 +1,17 @@
+name: Run tests
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["master"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: install npms
+        run: npm install
+      - name: Run tests
+        run: npm test

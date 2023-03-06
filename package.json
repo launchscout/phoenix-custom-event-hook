@@ -7,7 +7,7 @@
     "type": "git",
     "url": "https://github.com/gaslight/phoenix-custom-event-hook.git"
   },
-  "version": "0.0.5",
+  "version": "0.0.6",
   "main": "dist/phoenix-custom-event-hook.cjs.js",
   "module": "dist/phoenix-custom-event-hook.esm.js",
   "browser": "dist/phoenix-custom-event-hook.umd.js",
@@ -15,15 +15,20 @@
     "ms": "^2.0.0"
   },
   "devDependencies": {
+    "@esm-bundle/chai": "^4.3.4-fix.0",
+    "@open-wc/testing": "^3.1.7",
     "@rollup/plugin-commonjs": "^11.0.1",
     "@rollup/plugin-node-resolve": "^7.0.0",
-    "rollup": "^1.29.0"
+    "@web/test-runner": "^0.15.1",
+    "rollup": "^1.29.0",
+    "sinon": "^15.0.1"
   },
   "scripts": {
     "prepare": "npm run build",
     "build": "rollup -c",
+    "prepublish": "npm run build",
     "dev": "rollup -c -w",
-    "test": "node test/test.js",
+    "test": "web-test-runner \"test/*test.js\" --node-resolve",
     "pretest": "npm run build"
   },
   "files": [

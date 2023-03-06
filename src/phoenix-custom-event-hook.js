@@ -1,4 +1,12 @@
 const PhxCustomEvent = {
+
+  listeners: [],
+
+  serializeEvent(event) {
+    const { detail, target: { dataset } } = event;
+    return {...detail, ...dataset};
+  },
+
   mounted() {
     const sendEvent = (eventName, phxEvent) => {
       const attrs = this.el.attributes;
@@ -7,12 +15,15 @@ const PhxCustomEvent = {
         ? (event, payload, callback) =>
           this.pushEventTo(phxTarget, event, payload, callback)
         : (event, payload, callback) => this.pushEvent(event, payload, callback);
-      this.el.addEventListener(eventName, ({ detail }) => {
-        this.el.dispatchEvent(new CustomEvent('phx-event-start', { detail: { name: eventName, payload: detail } }));
-        pushEvent(phxEvent, detail, e => {
-          this.el.dispatchEvent(new CustomEvent('phx-event-complete', { detail: { name: eventName, payload: detail } }));
+      const listener = (evt) => {
+        const payload = this.serializeEvent(evt);
+        this.el.dispatchEvent(new CustomEvent('phx-event-start', { detail: { name: eventName, payload } }));
+        pushEvent(phxEvent, payload, e => {
+          this.el.dispatchEvent(new CustomEvent('phx-event-complete', { detail: { name: eventName, payload } }));
         });
-      });
+      };
+      this.el.addEventListener(eventName, listener);
+      this.listeners.push({eventName, listener});
     };
 
     const attrs = this.el.attributes;
@@ -38,6 +49,12 @@ const PhxCustomEvent = {
       });
     }
   },
+
+  destroyed() {
+    this.listeners.forEach(({eventName, listener}) => {
+      this.el.removeEventListener(eventName, listener);
+    });
+  }
 };
 
 export default PhxCustomEvent;

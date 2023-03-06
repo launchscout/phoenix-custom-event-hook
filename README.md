@@ -26,7 +26,7 @@ let liveSocket = new LiveSocket("/live", Socket, { params: { _csrf_token: csrfTo
 In this example, the `lit-google-element` emits a `bounds_changed` custom event which will become live_view event.
 
 ```html
-<lit-google-map api-key="" phx-hook="PhoenixCustomEvent" phx-custom-event-bounds_changed="bounds_changed">
+<lit-google-map api-key="" phx-hook="PhoenixCustomEvent" phx-send-events="bounds_changed">
 ```
 
 3. Handle the event in your live view
@@ -44,7 +44,7 @@ In this example, the `lit-google-element` emits a `bounds_changed` custom event 
   end
 ```
 
-An event target can be specified by assigning a component id to your custom element's `phx-target` attribute. In this example, any events emitted by the `lit-google-map` element will be handled by the LiveComponent that renders it, rather than the LiveView.
+An target component can be specified by assigning a component id to your custom element's `phx-target` attribute. In this example, any events emitted by the `lit-google-map` element will be handled by the LiveComponent that renders it, rather than the LiveView.
 
 ```html
 <lit-google-map api-key="" phx-hook="PhoenixCustomEvent" phx-target="<%= @myself %>" phx-custom-event-bounds_changed="bounds_changed">
@@ -76,6 +76,20 @@ In your Custom Element:
   this.addEventListener("message_updated", ({ detail: { message } }) => {
     console.log(message);
   });
+```
+
+## Event serialization
+
+As of version 0.0.6, the payload for the event pushed to live view will contain:
+
+* the detail property of the custom event
+* the dataset from the event target
+
+This will be merged together into the payload sent to LiveView. If you wish to override this behaviour, you may define your own implemention of the `serializeEvent` function on the hook object, for example:
+
+```js
+import PhoenixCustomEvent from 'phoenix-custom-event-hook';
+PhoenixCustomEvent.serializeEvent = (event) => { foo: 'bar' };
 ```
 
 ## License
